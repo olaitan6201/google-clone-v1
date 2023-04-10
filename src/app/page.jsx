@@ -1,5 +1,9 @@
-export const HomePage = () => {
+import { HomeHeader } from "@/components/HomeHeader"
+
+export default function HomePage(){
   return (
-    <div>Home Page</div>
+    <>
+      <HomeHeader />
+    </>
   )
 }
