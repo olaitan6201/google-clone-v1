@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { TbGridDots } from "react-icons/tb";
 
-export const HomeHeader = () => {
+export default function HomeHeader(){
   return (
     <header className="flex justify-end p-5 text-sm">
         <div className="flex space-x-5 items-center">
