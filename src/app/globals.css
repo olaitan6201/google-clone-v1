@@ -38,4 +38,8 @@ body {
   .links{
     @apply flex items-center space-x-6
   }
+
+  .header-icon{
+    @apply bg-transparent hover:bg-gray-200 p-2 text-4xl rounded-full cursor-pointer;
+  }
 }
