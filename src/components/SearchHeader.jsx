@@ -12,7 +12,7 @@ export default function SearchHeader() {
         <header className="sticky top-0">
             <div className="flex w-full p-6 items-center justify-between">
                 <Link href={"/"}>
-                    <Image src={"/google.png"} width={120} height={40} />
+                    <Image src={"/google.png"} width={120} height={40} alt="Google image" />
                 </Link>
                 <div className="flex-1">
                     <SearchBox />
