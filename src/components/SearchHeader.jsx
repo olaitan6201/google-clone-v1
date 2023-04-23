@@ -20,7 +20,7 @@ export default function SearchHeader({ searchTab, setSearchTab }) {
     const currentThemeColor = currentTheme === 'dark' ? 'bg-black' : 'bg-white';
 
     return (
-        <header className={`sticky top-0 ${mounted && currentThemeColor}`}>
+        <header className={`sticky z-50 top-0 ${mounted && currentThemeColor}`}>
             <div className="flex w-full p-6 items-center justify-between">
                 <Link href={"/"}>
                     <Image src={"/google.png"} width={120} height={40} alt="Google image" />

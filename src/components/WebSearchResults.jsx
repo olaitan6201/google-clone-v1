@@ -5,7 +5,7 @@ export default function WebSearchResults({ results }) {
     const { info, items } = results
     
     return (
-        <div className="w-full lg:w-3/4 mx-auto lg:mx-0 px-3 pb-40 sm:pb-24 sm:pl-[5%] md:pl-[14%] lg:pl-52">
+        <div className="w-full lg:w-3/4 mx-auto lg:mx-0 px-3 sm:pl-[5%] md:pl-[14%] lg:pl-52">
             <p className="text-gray-600 text-sm mb-5 mt-3">
                 About {info?.formattedTotalResults} results ({info?.formattedSearchTime} seconds)
             </p>
