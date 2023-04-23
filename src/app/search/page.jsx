@@ -30,7 +30,7 @@ function resultsReducer(state, action) {
 }
 
 export default function SearchPage() {
-	const API_KEY = 'AIzaSyC6uKhvSmPwZM2bctMUHVobIz1kCVyUrX4'
+	const API_KEY = 'AIzaSyATnRPLhuSISxDE3zC5KsGRiwfournd_7o'
 	const CONTEXT_KEY = 'c10e07f766faa4b7a'
 	const [results, resultsDispatch] = useReducer(resultsReducer, { info: null, items: [] })
 	const [mounted, setMounted] = useState(false)
