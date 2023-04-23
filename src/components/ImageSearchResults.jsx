@@ -9,8 +9,8 @@ export default function ({ results }) {
                 About {info?.formattedTotalResults} results ({info?.formattedSearchTime} seconds)
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 space-x-4">
-                {items?.map(({ link, image, title, displayLink, htmlTitle }) => (
-                    <div className="mb-8" key={link}>
+                {items?.map(({ link, image, title, displayLink, htmlTitle }, i) => (
+                    <div className="mb-8" key={`${link}${i}`}>
                         <div className="group">
                             <Link href={image?.contextLink || link}>
                                 <img src={link} alt={title} className="h-60 group-hover:shadow-xl w-full object-contain transition-shadow duration-300" />

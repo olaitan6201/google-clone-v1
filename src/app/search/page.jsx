@@ -6,44 +6,65 @@ import Paginator from "@/components/Paginator";
 import SearchHeader from "@/components/SearchHeader";
 import WebSearchResults from "@/components/WebSearchResults";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
+function resultsReducer(state, action) {
+	const { type, payload } = action
+	const { info, items } = payload
+	switch (type) {
+		case 'add_results':
+			return {
+				info,
+				items
+			}
+
+		case 'update_results':
+			return {
+				info,
+				items: [...state.items, ...items]
+			}
+
+		default:
+			return { info: state.info, items: state.items }
+	}
+}
 
 export default function SearchPage() {
 	const API_KEY = 'AIzaSyC6uKhvSmPwZM2bctMUHVobIz1kCVyUrX4'
 	const CONTEXT_KEY = 'c10e07f766faa4b7a'
-	const searchParam = useSearchParams();
-	const [results, setResults] = useState(null)
+	const [results, resultsDispatch] = useReducer(resultsReducer, { info: null, items: [] })
 	const [mounted, setMounted] = useState(false)
 	const [loading, setLoading] = useState(true)
 	const [searchTab, setSearchTab] = useState('web')
 	const [startIndex, setStartIndex] = useState(1)
-	const [prevIndex, setPrevIndex] = useState(startIndex || 1)
-	const [prevTab, setPrevTab] = useState('web')
+	const searchParam = useSearchParams()
 	const query = searchParam.get('q') || ''
 
-
-	useEffect(() => {
+	const fetchData = async (isUpdate = false) => {
 		if (query.trim().length > 0) {
 			setMounted(false)
 			setLoading(true)
-			if (searchTab !== prevTab) setStartIndex(1)
-			fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${query}${searchTab !== 'web' ? '&searchType=image' : ''}&start=${startIndex}`)
-				.then(res => res.json())
-				.then(res => {
-					if (startIndex > prevIndex) setResults({ info: res.searchInformation, items: [...results.items, ...res.items] })
-					else setResults({ info: res.searchInformation, items: res.items })
-					setPrevIndex(startIndex)
-					setPrevTab(searchTab)
-				})
-			setTimeout(() => {
-				setLoading(false)
-				setMounted(true)
-			}, 500)
+			const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${query}${searchTab !== 'web' ? '&searchType=image' : ''}&start=${startIndex}`)
+			const data = await res.json()
+			let type = 'add_results'
+			if (isUpdate) type = 'update_results'
+			resultsDispatch({ type, payload: { info: data.searchInformation, items: data.items } })
 		}
-	}, [searchTab, startIndex])
+		setTimeout(() => {
+			setLoading(false)
+			setMounted(true)
+		}, 500)
+	}
 
-	const nextPage = () => setStartIndex(startIndex + 10)
+	useEffect(() => {
+		setStartIndex(1)
+		fetchData()
+	}, [searchTab])
+
+	const nextPage = () => {
+		setStartIndex(startIndex + 10)
+		fetchData(true)
+	}
 
 	return (
 		<div>

@@ -10,17 +10,17 @@ export default function WebSearchResults({ results }) {
                 About {info?.formattedTotalResults} results ({info?.formattedSearchTime} seconds)
             </p>
 
-            {items?.map(item => (
-                <div className="mb-8 max-w-xl" key={`${item.link}`}>
+            {items?.map(({link, formattedUrl, htmlSnippet, title}, i) => (
+                <div className="mb-8 max-w-xl" key={`${link}${i}`}>
                     <div className="group flex flex-col">
-                        <Link href={item.link} className="text-sm truncate">
-                            {item.formattedUrl}
+                        <Link href={link} className="text-sm truncate">
+                            {formattedUrl}
                         </Link>
-                        <Link href={item.link} className="group-hover:underline decoration-blue-800 text-xl truncate font-medium text-blue-800">
-                            {item.title}
+                        <Link href={link} className="group-hover:underline decoration-blue-800 text-xl truncate font-medium text-blue-800">
+                            {title}
                         </Link>
                     </div>
-                    <p className="text-gray-600">{parse(item.htmlSnippet)}</p>
+                    <p className="text-gray-600">{parse(htmlSnippet)}</p>
                 </div>
             ))}
         </div>

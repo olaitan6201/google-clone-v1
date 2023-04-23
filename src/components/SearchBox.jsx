@@ -21,7 +21,7 @@ export default function SearchBox() {
     }
 
     return (
-        <form className="flex border border-gray-200 rounded-full shadow-lg px-6 py-3 ml-10 mr-5 flex-grow max-w-3xl items-center" onSubmit={handleSubmit}>
+        <form className="flex border border-gray-200 rounded-full shadow-lg px-6 py-1 ml-10 mr-5 flex-grow max-w-3xl items-center" onSubmit={handleSubmit}>
             <input type="text" className="w-full focus:outline-none bg-transparent" value={term} onChange={addTerm} />
             <RxCross2 className="text-2xl text-gray-500 cursor-pointer sm:mr-2" onClick={clearTerm} />
             <BsFillMicFill className="hidden sm:inline-flex text-4xl text-blue-500 pl-4 border-l-2 border-gray-300 mr-3 cursor-pointer" />
