@@ -1,8 +1,19 @@
+'use client'
+
+import { useTheme } from "next-themes";
 import CountryLookup from "./CountryLookup";
+import { useEffect, useState } from "react";
 
 export default function Footer() {
+    const { systemTheme, theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => setMounted(true), [])
+    const currentTheme = theme === "system" ? systemTheme : theme;
+
+    const currentThemeColor = currentTheme === 'dark' ? 'bg-gray-800 !text-white' : 'bg-[#f2f2f2]';
     return (
-        <div className="absolute bottom-0 text-sm text-gray-500 bg-[#f2f2f2] w-full">
+        <div className={`absolute bottom-0 text-sm text-gray-500 ${currentThemeColor} w-full`}>
             <div className="border-b px-8 py-3">
                 <CountryLookup />
             </div>
