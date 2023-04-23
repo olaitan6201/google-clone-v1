@@ -21,7 +21,7 @@ function resultsReducer(state, action) {
 		case 'update_results':
 			return {
 				info,
-				items: [...state.items, ...items]
+				items: [...state?.items, ...items]
 			}
 
 		default:
@@ -30,7 +30,7 @@ function resultsReducer(state, action) {
 }
 
 export default function SearchPage() {
-	const API_KEY = 'AIzaSyATnRPLhuSISxDE3zC5KsGRiwfournd_7o'
+	const API_KEY = 'AIzaSyDRw_jVK4ojMBt6JZKRHVBnaqixjwjmXqM'
 	const CONTEXT_KEY = 'c10e07f766faa4b7a'
 	const [results, resultsDispatch] = useReducer(resultsReducer, { info: null, items: [] })
 	const [mounted, setMounted] = useState(false)
@@ -56,14 +56,20 @@ export default function SearchPage() {
 		}, 500)
 	}
 
+	// const changeTab = (tabName = '') => {
+	// 	setSearchTab(tabName)
+	// }
+
 	useEffect(() => {
 		setStartIndex(1)
-		fetchData()
+		fetchData(false)
 	}, [searchTab])
+
+	// changeTab('web')
 
 	const nextPage = () => {
 		setStartIndex(startIndex + 10)
-		fetchData(true)
+		fetchData(searchTab, true)
 	}
 
 	return (

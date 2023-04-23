@@ -1,7 +1,7 @@
 import Link from "next/link"
 import parse from 'html-react-parser'
 
-export default function ({ results }) {
+export default function ImageSearchResults ({ results }) {
     const { info, items } = results
     return (
         <div className="">
