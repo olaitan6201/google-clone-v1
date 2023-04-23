@@ -4,7 +4,7 @@ import parse from 'html-react-parser'
 export default function ({ results }) {
     const { info, items } = results
     return (
-        <div className="pb-24 mt-4">
+        <div className="pb-40 sm:pb-24 mt-4">
             <p className="text-gray-600 text-sm mb-5 mt-3">
                 About {info?.formattedTotalResults} results ({info?.formattedSearchTime} seconds)
             </p>

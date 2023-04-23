@@ -1,6 +1,7 @@
 'use client'
 
 import ImageSearchResults from "@/components/ImageSearchResults";
+import Paginator from "@/components/Paginator";
 import SearchHeader from "@/components/SearchHeader";
 import WebSearchResults from "@/components/WebSearchResults";
 import { useSearchParams } from "next/navigation";
@@ -14,29 +15,42 @@ export default function SearchPage() {
   const [results, setResults] = useState(null)
   const [mounted, setMounted] = useState(false)
   const [searchTab, setSearchTab] = useState('web')
-  const [query, setQuery] = useState(searchParam.get('q') || '')
+  const [startIndex, setStartIndex] = useState(1)
+  const [prevIndex, setPrevIndex] = useState(startIndex || 1)
+  const [prevTab, setPrevTab] = useState('web')
+  const query = searchParam.get('q') || ''
 
 
   useEffect(() => {
     if (query.trim().length > 0) {
-      fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${query}${searchTab !== 'web' ? '&searchType=image' : ''}`)
+      setMounted(false)
+      if (searchTab !== prevTab) setStartIndex(1)
+      fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${query}${searchTab !== 'web' ? '&searchType=image' : ''}&start=${startIndex}`)
         .then(res => res.json())
-        .then(res => setResults({ info: res.searchInformation, items: res.items }))
-        .then(res => setMounted(true))
+        .then(res => {
+          if (startIndex > prevIndex) setResults({ info: res.searchInformation, items: [...results.items, ...res.items] })
+          else setResults({ info: res.searchInformation, items: res.items })
+          setPrevIndex(startIndex)
+          setPrevTab(searchTab)
+        })
+      setMounted(true)
     }
-  }, [query, searchTab])
+  }, [searchTab, startIndex])
+
+  const nextPage = () => setStartIndex(startIndex + 10)
 
   return (
     <div>
       <SearchHeader searchTab={searchTab} setSearchTab={setSearchTab} />
 
-      <div className="">
+      <div className="pb-40 sm:pb-24">
         {mounted &&
           (results && (searchTab === 'web' ?
             <WebSearchResults results={results} /> :
             <ImageSearchResults results={results} />
           ))
         }
+        <Paginator nextPage={nextPage} />
       </div>
     </div>
   )
