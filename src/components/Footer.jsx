@@ -11,9 +11,9 @@ export default function Footer() {
     useEffect(() => setMounted(true), [])
     const currentTheme = theme === "system" ? systemTheme : theme;
 
-    const currentThemeColor = currentTheme === 'dark' ? 'bg-gray-800 !text-white' : 'bg-[#f2f2f2]';
+    const currentThemeColor = currentTheme === 'dark' ? 'bg-gray-800' : 'bg-[#f2f2f2]';
     return (
-        <div className={`absolute bottom-0 text-sm text-gray-500 ${currentThemeColor} w-full`}>
+        <div className={`absolute bottom-0 text-sm text-gray-500 ${mounted && currentThemeColor} w-full`}>
             <div className="border-b px-8 py-3">
                 <CountryLookup />
             </div>

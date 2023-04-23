@@ -1,5 +1,6 @@
 'use client'
 
+import ImageSearchResults from "@/components/ImageSearchResults";
 import SearchHeader from "@/components/SearchHeader";
 import WebSearchResults from "@/components/WebSearchResults";
 import { useSearchParams } from "next/navigation";
@@ -18,12 +19,12 @@ export default function SearchPage() {
 
   useEffect(() => {
     if (query.trim().length > 0) {
-      fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${query}`)
+      fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${query}${searchTab !== 'web' ? '&searchType=image' : ''}`)
         .then(res => res.json())
         .then(res => setResults({ info: res.searchInformation, items: res.items }))
         .then(res => setMounted(true))
     }
-  }, [query])
+  }, [query, searchTab])
 
   return (
     <div>
@@ -31,7 +32,10 @@ export default function SearchPage() {
 
       <div className="">
         {mounted &&
-          (results && (searchTab === 'web' && <WebSearchResults results={results} />))
+          (results && (searchTab === 'web' ?
+            <WebSearchResults results={results} /> :
+            <ImageSearchResults results={results} />
+          ))
         }
       </div>
     </div>
